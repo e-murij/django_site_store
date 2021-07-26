@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from mainapp.models import Product, ProductCategory
+
 
 def index(request):
     title = 'Магазин'
@@ -21,15 +23,11 @@ def contact(request):
 
 def product(request):
     title = 'Каталог'
-    links_menu = [
-        {'href': 'product', 'name': 'все'},
-        {'href': 'products_home', 'name': 'дом'},
-        {'href': 'products_office', 'name': 'офис'},
-        {'href': 'products_modern', 'name': 'модерн'},
-        {'href': 'products_classic', 'name': 'классика'},
-    ]
+    links_menu = ProductCategory.objects.all()
+    related_products = Product.objects.all()[:3]
     context = {
         'title': title,
         'links_menu': links_menu,
+        'related_products': related_products,
     }
     return render(request, 'mainapp/products.html', context)
