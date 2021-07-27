@@ -5,6 +5,7 @@ import os
 from mainapp.models import ProductCategory
 from mainapp.models import Product
 
+from authapp.models import ShopUser
 
 JSON_PATH = 'mainapp/jsons'
 
@@ -29,4 +30,4 @@ class Command(BaseCommand):
             product['category'] = ProductCategory.objects.get(name=category_name)
             Product(**product).save()
 
-        User.objects.create_superuser(username='admin',password='admin')
+        ShopUser.objects.create_superuser(username='admin',password='admin', age=33)
