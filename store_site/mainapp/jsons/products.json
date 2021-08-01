@@ -1,0 +1,40 @@
+[
+  {
+    "category": "Стулья",
+    "name": "Стул для офиса",
+    "short_description": "Белый офисный стул",
+    "image": "product_img/product-21.jpg",
+    "description": "описание",
+    "price": "2000.00",
+    "quantity": 5
+  },
+  {
+    "category": "Диваны",
+    "name": "Черный диван",
+    "short_description": "Удобный большой диван",
+    "image": "product_img/sofa_1.jpg",
+    "description": "",
+    "price": "14000.00",
+    "quantity": 5
+
+  },
+  {
+    "category": "Шкафы",
+    "name": "Книжный шкаф",
+    "short_description": "Вместительный, деревянный шкаф для книг",
+    "image": "product_img/cupboard_1.jpg",
+    "description": "",
+    "price": "25500.00",
+    "quantity": 3
+  },
+  {
+    "category": "Столы",
+    "name": "Дизайнерский стол",
+    "short_description": "Интерьерный стол",
+    "image": "product_img/desc_1.jpg",
+    "description": "",
+    "price": "30000.00",
+    "quantity": 16
+
+  }
+]
