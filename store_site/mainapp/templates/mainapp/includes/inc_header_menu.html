@@ -3,6 +3,27 @@
     <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">домой</a></li>
     <li><a href="{% url 'product' %}" class="{% if request.resolver_match.url_name == 'product' %}active{% endif %}">продукты</a></li>
     <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">контакты</a></li>
-
+    {% if user.is_authenticated %}
+        <li>
+            <a href="{% url 'auth:edit' %}">
+                {{ user.first_name|default:'Пользователь' }}
+            </a>
+        </li>
+    {% endif %}
+    <li>
+        {% if user.is_authenticated %}
+          <a href="{% url 'auth:logout' %}">выйти</a>
+        {% else %}
+          <a href="{% url 'auth:login' %}">войти</a>
+        {% endif %}
+    </li>
+    <li>
+    <a href="{% url 'basket:view' %}" >
+        <span>
+            {% if basket %} ({{ basket|length }}) {% endif %}
+        </span>
+    </a>
+</li>
 </ul>
+<a href="#" class="basket"></a>
 <a href="#" class="search"></a>
