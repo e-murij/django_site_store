@@ -10,4 +10,5 @@ urlpatterns = [
     path('product/product/<int:pk>/', views.product, name='product'),
     path('auth/', include('authapp.urls', namespace='auth'), name='auth'),
     path('basket/', include('basketapp.urls', namespace='basket'), name='basket'),
+    path('admin_staff/', include('adminapp.urls', namespace='admin_staff'), name='admin_staff'),
 ]
