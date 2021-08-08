@@ -46,25 +46,19 @@
                                 <td>{{ product.price }}</td>
                                 <td>{{ product.quantity }}</td>
                                 <td class="text-center">
-                                    <button>
-                                        <a href="{% url 'admin_staff:product_read' product.pk %}">
-                                            Подробнее
-                                        </a>
-                                    </button>
+                                    <a href="{% url 'admin_staff:product_read' product.pk %}">
+                                        <button class="btn btn-success"> Подробнее</button>
+                                    </a>
                                 </td>
                                 <td class="text-center">
-                                    <button>
-                                        <a href="{% url 'admin_staff:product_update' product.pk %}">
-                                            Радактировать
-                                        </a>
-                                    </button>
+                                    <a href="{% url 'admin_staff:product_update' product.pk %}">
+                                        <button class="btn btn-success"> Редактировать</button>
+                                    </a>
                                 </td>
                                 <td class="text-center">
-                                    <button>
-                                        <a href="{% url 'admin_staff:product_delete' product.pk %}">
-                                            удалить
-                                        </a>
-                                    </button>
+                                    <a href="{% url 'admin_staff:product_delete' product.pk %}">
+                                        <button class="btn btn-success">Удалить</button>
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

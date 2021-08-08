@@ -36,35 +36,27 @@
                                 <td>{{ category.description|title }}</td>
                                 {% if category.is_active %}
                                     <td class="text-center">
-                                        <button>
-                                            <a href="{% url 'admin_staff:products' category.pk %}">
-                                                товары категории
-                                            </a>
-                                        </button>
+                                        <a href="{% url 'admin_staff:products' category.pk %}">
+                                            <button class="btn btn-success">Товары категории</button>
+                                        </a>
                                     </td>
                                     <td class="text-center">
-                                        <button>
-                                            <a href="{% url 'admin_staff:category_update' category.pk %}">
-                                                редактировать
-                                            </a>
-                                        </button>
+                                        <a href="{% url 'admin_staff:category_update' category.pk %}">
+                                        <button class="btn btn-success">Редактировать</button>
+                                        </a>
                                     </td>
                                     <td class="text-center">
-                                            <button>
-                                                <a href="{% url 'admin_staff:category_delete' category.pk %}">
-                                                    удалить
-                                                </a>
-                                            </button>
+                                        <a href="{% url 'admin_staff:category_delete' category.pk %}">
+                                            <button class="btn btn-success">Удалить</button>
+                                        </a>
                                     </td>
                                 {% else %}
                                     <td></td>
                                     <td></td>
                                     <td class="text-center">
-                                            <button>
-                                                <a href="{% url 'admin_staff:category_restore' category.pk %}">
-                                                    восстановить
-                                                </a>
-                                            </button>
+                                        <a href="{% url 'admin_staff:category_restore' category.pk %}">
+                                            <button class="btn btn-success">Восстановить</button>
+                                        </a>
                                     </td>
                                 {% endif %}
                             </tr>
