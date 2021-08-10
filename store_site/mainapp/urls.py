@@ -7,6 +7,7 @@ urlpatterns = [
     path('contact', views.contact, name='contact'),
     path('product', views.products, name='product'),
     path('product/category/<int:pk>/', views.products, name='category'),
+    path('product/category/<int:pk>/page/<int:page>/', views.products, name='page'),
     path('product/product/<int:pk>/', views.product, name='product'),
     path('auth/', include('authapp.urls', namespace='auth'), name='auth'),
     path('basket/', include('basketapp.urls', namespace='basket'), name='basket'),

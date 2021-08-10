@@ -1,5 +1,6 @@
 {% extends 'adminapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block content %}
 <main>
@@ -34,37 +35,59 @@
                             <th>Количество</th>
                             <th>Подробнее</th>
                             <th>Редактировать</th>
-                            <th>Удалить</th>
+                            <th>Удалить/Восстановить</th>
                         </tr>
                         </tfoot>
                         <tbody>
                         {% for product in products %}
-                            <tr>
-                                <td><img src="/media/{{ product.image }}"></td>
-                                <td>{{ product.name }}</td>
-                                <td>{{ product.short_desc }}</td>
-                                <td>{{ product.price }}</td>
-                                <td>{{ product.quantity }}</td>
-                                <td class="text-center">
-                                    <a href="{% url 'admin_staff:product_read' product.pk %}">
-                                        <button class="btn btn-success"> Подробнее</button>
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    <a href="{% url 'admin_staff:product_update' product.pk %}">
-                                        <button class="btn btn-success"> Редактировать</button>
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    <a href="{% url 'admin_staff:product_delete' product.pk %}">
-                                        <button class="btn btn-success">Удалить</button>
-                                    </a>
-                                </td>
-                            </tr>
+                        <tr bgcolor="{% if not product.is_active %}lightgrey{% endif %}">
+                            <td><img src="{{ product.image | media_folder_products }}"></td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.short_desc }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td class="text-center">
+                                {% if product.is_active %}
+                                <a href="{% url 'admin_staff:product_read' product.pk %}">
+                                    <button class="btn btn-success"> Подробнее</button>
+                                </a>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if product.is_active %}
+                                <a href="{% url 'admin_staff:product_update' product.pk %}">
+                                    <button class="btn btn-success"> Редактировать</button>
+                                </a>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                <a href="{% url 'admin_staff:product_delete' product.pk %}">
+                                    <button class="btn btn-success">Удалить/Восстановить</button>
+                                </a>
+                            </td>
+                        </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
+            </div>
+            <div class="paginator">
+                <h2 style="text-align: center;">
+                    {% if products.has_previous %}
+                    <a href="{% url 'adminapp:page' category.pk products.previous_page_number %}" style="color: black">
+                        <<
+                    </a>
+                    {% endif %}
+
+                    страница {{ products.number }} из
+                    {{ products.paginator.num_pages }}
+
+                    {% if products.has_next %}
+                    <a href="{% url 'adminapp:page' category.pk products.next_page_number %}" style="color: black">
+                        >>
+                    </a>
+                    {% endif %}
+                </h2>
             </div>
             <div class="card-footer">
                 <a href="{% url 'adminapp:product_create' category.pk %}">

@@ -58,25 +58,18 @@
                                         <i class="fa fa-times-circle"></i>
                                     {% endif %}
                                 </td>
-                                {% if user.is_active %}
-                                    <td>
+                                <td>
+                                    {% if user.is_active %}
                                         <a href="{% url 'admin_staff:user_update' user.id %}">
                                             <button class="btn btn-success">Редактировать</button>
                                         </a>
-                                    </td>
-                                     <td>
-                                        <a href="{% url 'admin_staff:user_delete' user.id %}">
-                                            <button class="btn btn-success">Удалить</button>
-                                        </a>
-                                    </td>
-                                {% else %}
-                                    <td></td>
-                                    <td>
-                                        <a href="{% url 'admin_staff:user_restore' user.id %}">
-                                            <button class="btn btn-success">Восстановить</button>
-                                        </a>
-                                    </td>
-                                {% endif %}
+                                    {% endif %}
+                                </td>
+                                 <td>
+                                    <a href="{% url 'admin_staff:user_delete' user.id %}">
+                                        <button class="btn btn-success">Удалить/Восстановить</button>
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
