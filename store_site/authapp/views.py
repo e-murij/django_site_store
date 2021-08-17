@@ -1,8 +1,11 @@
+from django.conf import settings
 from django.contrib import auth
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm
+from authapp.models import ShopUser
 
 
 def login(request):
@@ -37,8 +40,13 @@ def register(request):
     if request.method == 'POST':
         register_form = ShopUserRegisterForm(request.POST, request.FILES)
         if register_form.is_valid():
-            register_form.save()
-            return HttpResponseRedirect(reverse('auth:login'))
+            user = register_form.save()
+            if send_verify_mail(user):
+                print('сообщение отправлено')
+                return HttpResponseRedirect(reverse('auth:login'))
+            else:
+                print('сообщение НЕ отправлено')
+                return HttpResponseRedirect(reverse('auth:login'))
     else:
         register_form = ShopUserRegisterForm()
     context = {
@@ -63,3 +71,26 @@ def edit(request):
     }
     return render(request, 'authapp/edit.html', context)
 
+
+def send_verify_mail(user):
+    verify_link = reverse('auth:verify', args=[user.email, user.activation_key])
+    title = f'Подтверждение учетной записи {user.username}'
+    message = f'Для подтверждения учетной записи {user.username} на сайте {settings.DOMAIN_NAME} - пройдите по ссылке: ' \
+              f'<a href="{settings.DOMAIN_NAME}{verify_link}"> Активировать </a>'
+    return send_mail(title, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False)
+
+
+def verify(request, email, activation_key):
+    try:
+        user = ShopUser.objects.get(email=email)
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.save()
+            auth.login(request, user)
+            return render(request, 'authapp/verification.html')
+        else:
+            print(f'activation key error in user: {user.username}')
+            return render(request, 'authapp/verification.html')
+    except Exception as err:
+        print(f'Error activation user: {err.args}')
+        return HttpResponseRedirect(reverse('home'))
