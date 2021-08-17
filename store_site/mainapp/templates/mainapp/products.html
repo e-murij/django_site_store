@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 {% block js %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -22,21 +23,21 @@
         <div class="details-products">
             <div class="details-slider">
                 <div class="slider-product">
-                    <img src="/media/{{ hot_product.image }}" alt="">
+                    <img src="{{ hot_product.image | media_folder_products}}" alt="">
                 </div>
                 <div class="slider-control">
                     <div class="block">
-                        <a href="#"><img src="/media/{{ hot_product.image }}" style="width: 100%" alt="">
+                        <a href="#"><img src="{{ hot_product.image | media_folder_products }}" style="width: 100%" alt="">
                             <div class="text"></div>
                         </a>
                     </div>
                     <div class="block">
-                        <a href="#"><img src="/media/{{ hot_product.image }}" style="width: 100%" alt="">
+                        <a href="#"><img src="{{ hot_product.image | media_folder_products }}" style="width: 100%" alt="">
                             <div class="text"></div>
                         </a>
                     </div>
                     <div class="block">
-                        <a href="#"><img src="/media/{{ hot_product.image }}" style="width: 100%" alt="">
+                        <a href="#"><img src="{{ hot_product.image | media_folder_products}}" style="width: 100%" alt="">
                             <div class="text"></div>
                         </a>
                     </div>
@@ -63,11 +64,11 @@
                     Категория: "{{ category.name|title }}"
                 </h2>
             </div>
-            {% endif %}
-            <div class="related-products" style="display: flex; justify-content: center; margin-top: 20px;">
+            <br>
+            <div class="related-products" style="display: flex; justify-content: center; margin-top: 20px; margin-bottom: 20px">
                 {% for product in products %}
                 <div class="block">
-                    <a href="{% url 'product' product.pk %}"><img src="/media/{{ product.image }}" alt="">
+                    <a href="{% url 'product' product.pk %}"><img src="{{ product.image | media_folder_products}}" alt="">
                         <div class="text">
                             <img src="{% static 'mainapp/img/icon-hover.png' %}" alt="img">
                             <h4>{{ product.name }}</h4>
@@ -78,7 +79,25 @@
                 </div>
                 {% endfor %}
             </div>
+            <div class="paginator">
+                <h2 style="text-align: center;">
+                    {% if products.has_previous %}
+                        <a href="{% url 'page' category.pk products.previous_page_number %}" style="color: black">
+                            <<
+                        </a>
+                    {% endif %}
 
+                    страница {{ products.number }} из
+                    {{ products.paginator.num_pages }}
+
+                    {% if products.has_next %}
+                        <a href="{% url 'page' category.pk products.next_page_number %}" style="color: black">
+                            >>
+                        </a>
+                    {% endif %}
+                </h2>
+            </div>
+            {% endif %}
         </div>
 
         <div class="related">
@@ -89,7 +108,7 @@
             <div class="related-products clearfix">
                 {% for product in related_products %}
                 <div class="block">
-                    <a href="{% url 'product' product.pk %}"><img src="/media/{{product.image}}" alt="">
+                    <a href="{% url 'product' product.pk %}"><img src="{{product.image | media_folder_products}}" alt="">
                         <div class="text">
                             <img src="{% static 'mainapp/img/icon-hover.png' %}" alt="img">
                             <h4>{{product.name}}</h4>

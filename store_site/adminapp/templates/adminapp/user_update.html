@@ -8,12 +8,12 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table mr-1"></i>
-                Создание
+                Создание/Редактирование
             </div>
             <div class="card-body">
                 <form class="form-horizontal" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ update_form.as_p }}
+                    {{ form.as_p }}
                     <input class="form-control" type="submit" value="сохранить">
                 </form>
             </div>
