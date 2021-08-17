@@ -42,10 +42,8 @@ def register(request):
         if register_form.is_valid():
             user = register_form.save()
             if send_verify_mail(user):
-                print('сообщение отправлено')
                 return HttpResponseRedirect(reverse('auth:login'))
             else:
-                print('сообщение НЕ отправлено')
                 return HttpResponseRedirect(reverse('auth:login'))
     else:
         register_form = ShopUserRegisterForm()
