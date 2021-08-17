@@ -17,12 +17,16 @@ class ShopUserLoginForm(AuthenticationForm):
 class ShopUserRegisterForm(UserCreationForm):
     class Meta:
         model = ShopUser
-        fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age', 'avatar')
+        fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age', 'avatar', 'is_active', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         super(ShopUserRegisterForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            if field_name == 'is_active' or field_name == 'is_staff':
+                field.widget.attrs['type'] = 'checkbox'
+                field.widget.attrs['class'] = "form-check-input"
+            else:
+                field.widget.attrs['class'] = 'form-control'
 
     def clean_age(self):
         data = self.cleaned_data['age']
@@ -34,12 +38,16 @@ class ShopUserRegisterForm(UserCreationForm):
 class ShopUserEditForm(UserChangeForm):
     class Meta:
         model = ShopUser
-        fields = ('username', 'first_name', 'email', 'age', 'avatar', 'password')
+        fields = ('username', 'first_name', 'email', 'age', 'avatar', 'is_active', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         super(ShopUserEditForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            if field_name == 'is_active' or field_name == 'is_staff':
+                field.widget.attrs['type'] = 'checkbox'
+                field.widget.attrs['class'] = "form-check-input"
+            else:
+                field.widget.attrs['class'] = 'form-control'
 
     def clean_age(self):
         data = self.cleaned_data['age']

@@ -1,3 +1,4 @@
+{% load static %}
 <a href="/" class="logo"></a>
 <ul class="menu">
     <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">домой</a></li>
@@ -10,6 +11,11 @@
             </a>
         </li>
     {% endif %}
+   {% if user.is_superuser %}
+        <li>
+            <a href="{% url 'admin_staff:users' %}">админка</a>
+        </li>
+    {% endif %}
     <li>
         {% if user.is_authenticated %}
           <a href="{% url 'auth:logout' %}">выйти</a>
@@ -18,12 +24,14 @@
         {% endif %}
     </li>
     <li>
-    <a href="{% url 'basket:view' %}" >
+    <a href="{% url 'basket:view' %}">
+<!--       <img src="{% static 'mainapp/img/basket.png' %}" alt="">-->
         <span>
-            {% if basket %} ({{ basket|length }}) {% endif %}
+            {% if basket %}
+                {{ basket.0.total_cost|floatformat:0 }} руб
+                ({{ basket.0.total_quantity }} шт )
+            {% endif %}
         </span>
     </a>
-</li>
+    </li>
 </ul>
-<a href="#" class="basket"></a>
-<a href="#" class="search"></a>
