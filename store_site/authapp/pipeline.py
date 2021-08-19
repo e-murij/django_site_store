@@ -20,6 +20,8 @@ def save_user_profile(backend, user, response, *args, **kwargs):
     if resp.status_code != 200:
         return
     data = resp.json()['response'][0]
+    if response.get('email'):
+        user.email = response.get('email')
     if data['sex']:
         user.shopuserprofile.gender = ShopUserProfile.MALE if data['sex'] == 2 else ShopUserProfile.FEMALE
     if data['about']:
