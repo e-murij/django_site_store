@@ -7,30 +7,18 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
     title = 'Магазин'
-    basket = get_basket(request.user)
     context = {
         'title': title,
-        'basket': basket,
     }
     return render(request, 'mainapp/index.html', context)
 
 
 def contact(request):
     title = 'Контакты'
-    basket = get_basket(request.user)
     context = {
         'title': title,
-        'basket': basket,
     }
     return render(request, 'mainapp/contact.html', context)
-
-
-def get_basket(user):
-    if user.is_authenticated:
-        basket = Basket.objects.filter(user=user)
-    else:
-        basket = []
-    return basket
 
 
 def get_hot_product():
@@ -48,7 +36,6 @@ def get_related_products(hot_product):
 def products(request, pk=None, page=1):
     title = 'Каталог'
     links_menu = ProductCategory.objects.filter(is_active=True)
-    basket = get_basket(request.user)
     hot_product = get_hot_product()
     related_products = get_related_products(hot_product)
     products = Product.objects.filter(is_active=True, category__is_active=True).order_by('name')
@@ -75,7 +62,6 @@ def products(request, pk=None, page=1):
             'category': category,
             'related_products': related_products,
             'products': products_paginator,
-            'basket': basket,
             'hot_product': hot_product,
         }
         return render(request, 'mainapp/products.html', context)
@@ -84,7 +70,6 @@ def products(request, pk=None, page=1):
         'links_menu': links_menu,
         'related_products': related_products,
         'products': products,
-        'basket': basket,
         'hot_product': hot_product,
     }
     return render(request, 'mainapp/products.html', context)
@@ -92,7 +77,6 @@ def products(request, pk=None, page=1):
 
 def product(request, pk):
     title = 'продукты'
-    basket = get_basket(request.user)
     links_menu = ProductCategory.objects.filter(is_active=True)
     product = get_object_or_404(Product, pk=pk)
     related_products = get_related_products(product)
@@ -101,6 +85,5 @@ def product(request, pk):
         'links_menu': links_menu,
         'related_products': related_products,
         'product': product,
-        'basket': basket,
     }
     return render(request, 'mainapp/product.html', context)

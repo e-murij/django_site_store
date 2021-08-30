@@ -1,6 +1,9 @@
+import hashlib
+import random
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
-from .models import ShopUser
+from .models import ShopUser, ShopUserProfile
 
 
 class ShopUserLoginForm(AuthenticationForm):
@@ -17,12 +20,12 @@ class ShopUserLoginForm(AuthenticationForm):
 class ShopUserRegisterForm(UserCreationForm):
     class Meta:
         model = ShopUser
-        fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age', 'avatar', 'is_active', 'is_staff')
+        fields = ('username', 'first_name', 'password1', 'password2', 'email', 'age', 'avatar', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         super(ShopUserRegisterForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            if field_name == 'is_active' or field_name == 'is_staff':
+            if field_name == 'is_staff':
                 field.widget.attrs['type'] = 'checkbox'
                 field.widget.attrs['class'] = "form-check-input"
             else:
@@ -33,6 +36,14 @@ class ShopUserRegisterForm(UserCreationForm):
         if data < 18:
             raise forms.ValidationError("Вы слишком молоды!")
         return data
+
+    def save(self, *args, **kwargs):
+        user = super(ShopUserRegisterForm, self).save()
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode('utf8')).hexdigest()
+        user.save()
+        return user
 
 
 class ShopUserEditForm(UserChangeForm):
@@ -54,3 +65,13 @@ class ShopUserEditForm(UserChangeForm):
         if data < 18:
             raise forms.ValidationError("Вы слишком молоды!")
         return data
+
+
+class ShopUserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = ShopUserProfile
+        fields = ('tagline', 'about_me', 'gender')
+    def __init__(self, *args, **kwargs):
+        super(ShopUserProfileEditForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
