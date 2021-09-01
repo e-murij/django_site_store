@@ -3,7 +3,7 @@ from django.db import transaction
 from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, DeleteView, DetailView, UpdateView
@@ -15,6 +15,8 @@ from ordersapp.models import OrderItem
 from ordersapp.forms import OrderItemForm
 
 from basketapp.models import Basket
+
+from mainapp.models import Product
 
 
 class OrderList(LoginRequiredMixin, ListView):
@@ -78,7 +80,7 @@ class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
         data = super(OrderItemsUpdate, self).get_context_data(**kwargs)
         OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=1)
         if self.request.POST:
-            data['orderitems'] = OrderFormSet(self.request.POST)
+            data['orderitems'] = OrderFormSet(self.request.POST, instance=self.object)
         else:
             formset = OrderFormSet(instance=self.object)
             for form in formset.forms:
@@ -145,3 +147,12 @@ def product_quantity_update_save(sender, update_fields, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
     instance.product.quantity += instance.quantity
     instance.product.save()
+
+
+def get_product_price(request, pk):
+    if request.is_ajax():
+        product = Product.objects.filter(pk=int(pk)).first()
+        if product:
+            return JsonResponse({'price': product.price})
+        else:
+            return JsonResponse({'price': 0})

@@ -6,8 +6,6 @@
     <script src="{% static 'ordersapp/script.js' %}"></script>
     <script src="{% static 'ordersapp/jquery.formset.js' %}"></script>
 {% endblock %}
-
-
 {% block content %}
    {% include 'ordersapp/includes/inc_order_summary.html' %}
    <div class="order_form">
@@ -42,7 +40,7 @@
                                {% else %}
                                    {% if field.value %}
                                        <span class="orderitems-{{forloop.parentloop.counter0}}-price">
-                                            {{ field.value }}
+                                         {{ field.value }}
                                        </span> руб
                                    {% endif %}
                                {% endif %}
@@ -57,4 +55,3 @@
    </div>
 
 {% endblock %}
-
