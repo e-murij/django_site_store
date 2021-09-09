@@ -21,14 +21,14 @@ def contact(request):
     return render(request, 'mainapp/contact.html', context)
 
 
-def get_hot_product():
-    product = Product.objects.filter(is_active=True, category__is_active=True)
-    return random.sample(list(product), 1)[0]
+def get_hot_product(products):
+    return random.sample(list(products), 1)[0]
 
 
 def get_related_products(hot_product):
-    related_products = Product.objects.filter(category=hot_product.category).filter(is_active=True,
-                                                                                    category__is_active=True).exclude(
+    related_products = Product.objects.select_related('category').filter(is_active=True,
+                                                                         category__is_active=True,
+                                                                         category=hot_product.category).exclude(
         pk=hot_product.pk)[:3]
     return related_products
 
@@ -36,9 +36,9 @@ def get_related_products(hot_product):
 def products(request, pk=None, page=1):
     title = 'Каталог'
     links_menu = ProductCategory.objects.filter(is_active=True)
-    hot_product = get_hot_product()
-    related_products = get_related_products(hot_product)
     products = Product.objects.filter(is_active=True, category__is_active=True).order_by('name')
+    hot_product = get_hot_product(products)
+    related_products = get_related_products(hot_product)
     if pk is not None:
         if pk == 0:
             category = {
@@ -47,8 +47,8 @@ def products(request, pk=None, page=1):
             }
         else:
             category = get_object_or_404(ProductCategory, pk=pk)
-            products = Product.objects.filter(is_active=True, category__is_active=True).filter(
-                category__pk=pk).order_by('name')
+            products = Product.objects.filter(is_active=True, category__is_active=True,
+                                              category__pk=pk).order_by('name')
         paginator = Paginator(products, 2)
         try:
             products_paginator = paginator.page(page)
