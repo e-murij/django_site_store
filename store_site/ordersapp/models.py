@@ -79,7 +79,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    #objects = OrderItemQuerySet.as_manager()
+    objects = OrderItemQuerySet.as_manager()
     order = models.ForeignKey(
         Order,
         related_name="orderitems",
@@ -102,7 +102,6 @@ class OrderItem(models.Model):
     def get_item(pk):
         return OrderItem.objects.filter(pk=pk).first()
 
-    @transaction.atomic
     def delete(self):
         self.product.quantity += self.quantity
         self.product.save()
