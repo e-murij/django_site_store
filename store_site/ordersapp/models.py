@@ -102,8 +102,8 @@ class OrderItem(models.Model):
     def get_item(pk):
         return OrderItem.objects.filter(pk=pk).first()
 
-    def delete(self):
-        self.product.quantity += self.quantity
-        self.product.save()
-        super(self.__class__, self).delete()
+    # def delete(self):
+    #     self.product.quantity += self.quantity
+    #     self.product.save()
+    #     super(self.__class__, self).delete()
 

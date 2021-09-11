@@ -542,8 +542,7 @@ html, body {
 }
 
 .footer {
-	height: 384px;
-	width: 1169px;
+    weight: 100%;
 	background-color: #f7f7f7;
 	padding-left: 99px;
 	padding-right: 98px;
@@ -587,7 +586,7 @@ html, body {
 	font-weight: 300;
 	line-height: 24px;/* Приближение из-за подстановки шрифтов */
 	text-align: left;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 .text-footer a {
 	text-decoration: none;
@@ -655,8 +654,7 @@ td:first-child {
 	height: 28px;
 	width: 121px;
 	float: left;
-	margin-left: 158px;
-	margin-top: 30px;
+	margin-top: 10px;
 }
 .social1{
 	background: url(img/social-links.png);

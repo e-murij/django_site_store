@@ -11,6 +11,16 @@ from adminapp.forms import CategoryEditForm
 from adminapp.forms import ProductEditForm
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.dispatch import receiver
+from django.db.models.signals import pre_save
+from django.db import connection
+from django.db.models import F
+
+
+def db_profile_by_type(prefix, type, queries):
+    update_queries = list(filter(lambda x: type in x['sql'], queries))
+    print(f'db_profile {type} for {prefix}:')
+    [print(query['sql']) for query in update_queries]
 
 
 # @user_passes_test(lambda u: u.is_superuser)
@@ -27,6 +37,7 @@ class UserListView(LoginRequiredMixin, ListView):
     model = ShopUser
     template_name = 'adminapp/users.html'
     context_object_name = 'users'
+
     def get_queryset(self):
         return ShopUser.objects.all().order_by('-is_active', '-is_superuser', '-is_staff', 'username')
 
@@ -106,7 +117,7 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 #         user.save()
 #     return HttpResponseRedirect(reverse('admin_staff:users'))
 
-class UserDeleteView(LoginRequiredMixin,DeleteView):
+class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = ShopUser
     success_url = reverse_lazy('admin_staff:users')
 
@@ -196,6 +207,14 @@ class ProductCategoryUpdateView(LoginRequiredMixin, UpdateView):
         context['title'] = 'категории/редактирование'
         return context
 
+    def form_valid(self, form):
+        if 'discount' in form.cleaned_data:
+            discount = form.cleaned_data['discount']
+            if discount:
+                self.object.product_set.update(price=F('price') * (1 - discount / 100))
+                db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+        return super().form_valid(form)
+
 
 # @user_passes_test(lambda u: u.is_superuser)
 # def category_delete(request, pk):
@@ -206,7 +225,7 @@ class ProductCategoryUpdateView(LoginRequiredMixin, UpdateView):
 #     return HttpResponseRedirect(reverse('admin_staff:categories'))
 
 
-class ProductCategoryDeleteView(LoginRequiredMixin,DeleteView):
+class ProductCategoryDeleteView(LoginRequiredMixin, DeleteView):
     model = ProductCategory
     success_url = reverse_lazy('admin_staff:categories')
 
@@ -267,7 +286,7 @@ def product_create(request, pk):
 #     return render(request, 'adminapp/product_read.html', context)
 
 
-class ProductDetailView(LoginRequiredMixin,DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'adminapp/product_read.html'
 
@@ -303,3 +322,11 @@ def product_delete(request, pk):
         product.is_active = False if product.is_active else True
         product.save()
         return HttpResponseRedirect(reverse('adminapp:products', args=[product.category.pk]))
+
+
+@receiver(pre_save, sender=ProductCategory)
+def product_is_active_update_productcategory_save(sender, instance, **kwargs):
+    if instance.pk:
+        if not instance.is_active:
+            instance.product_set.update(is_active=False)
+        db_profile_by_type(sender, 'UPDATE', connection.queries)
