@@ -15,3 +15,4 @@ urlpatterns = [
     path('orders/', include('ordersapp.urls', namespace='orders'), name='orders'),
     path('', include('social_django.urls', namespace='social')),
 ]
+

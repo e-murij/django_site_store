@@ -1,16 +1,52 @@
 [
   {
     "category": "Стулья",
-    "name": "Стул для офиса",
-    "short_description": "Белый офисный стул",
-    "image": "product_img/product-21.jpg",
+    "name": "Стул 1",
+    "short_description": "Описание стул",
+    "image": "product_img/chair_1.jpg",
+    "description": "описание",
+    "price": "2000.00",
+    "quantity": 5
+  },
+  {
+    "category": "Стулья",
+    "name": "Стул 2",
+    "short_description": "Описание стул",
+    "image": "product_img/chair_2.jpg",
+    "description": "описание",
+    "price": "2000.00",
+    "quantity": 5
+  },
+  {
+    "category": "Стулья",
+    "name": "Стул 3",
+    "short_description": "Описание стул стул",
+    "image": "product_img/chair_3.jpg",
+    "description": "описание",
+    "price": "2000.00",
+    "quantity": 5
+  },
+  {
+    "category": "Стулья",
+    "name": "Стул 4",
+    "short_description": "Описание стул стул",
+    "image": "product_img/chair_4.jpg",
+    "description": "описание",
+    "price": "2000.00",
+    "quantity": 5
+  },
+  {
+    "category": "Стулья",
+    "name": "Стул 5",
+    "short_description": "Описание стул стул",
+    "image": "product_img/chair_5.jpg",
     "description": "описание",
     "price": "2000.00",
     "quantity": 5
   },
   {
     "category": "Диваны",
-    "name": "Черный диван",
+    "name": "Диван 1",
     "short_description": "Удобный большой диван",
     "image": "product_img/sofa_1.jpg",
     "description": "",
@@ -19,10 +55,86 @@
 
   },
   {
+    "category": "Диваны",
+    "name": "Диван 2",
+    "short_description": "Удобный большой диван",
+    "image": "product_img/sofa_2.jpg",
+    "description": "",
+    "price": "14000.00",
+    "quantity": 5
+
+  },
+  {
+    "category": "Диваны",
+    "name": "Диван 3",
+    "short_description": "Удобный большой диван",
+    "image": "product_img/sofa_3.jpg",
+    "description": "",
+    "price": "14000.00",
+    "quantity": 5
+
+  },
+  {
+    "category": "Диваны",
+    "name": "Диван 4",
+    "short_description": "Удобный большой диван",
+    "image": "product_img/sofa_4.jpg",
+    "description": "",
+    "price": "14000.00",
+    "quantity": 5
+
+  },
+  {
+    "category": "Диваны",
+    "name": "Диван 5",
+    "short_description": "Удобный большой диван",
+    "image": "product_img/sofa_5.jpg",
+    "description": "",
+    "price": "14000.00",
+    "quantity": 5
+
+  },
+  {
     "category": "Шкафы",
-    "name": "Книжный шкаф",
+    "name": "Шкаф 1",
     "short_description": "Вместительный, деревянный шкаф для книг",
     "image": "product_img/cupboard_1.jpg",
+    "description": "",
+    "price": "25500.00",
+    "quantity": 3
+  },
+   {
+    "category": "Шкафы",
+    "name": "Шкаф 2",
+    "short_description": "Вместительный, деревянный шкаф для книг",
+    "image": "product_img/cupboard_2.jpg",
+    "description": "",
+    "price": "25500.00",
+    "quantity": 3
+  },
+   {
+    "category": "Шкафы",
+    "name": "Шкаф 3",
+    "short_description": "Вместительный, деревянный шкаф для книг",
+    "image": "product_img/cupboard_3.jpg",
+    "description": "",
+    "price": "25500.00",
+    "quantity": 3
+  },
+   {
+    "category": "Шкафы",
+    "name": "Шкаф 4",
+    "short_description": "Вместительный, деревянный шкаф для книг",
+    "image": "product_img/cupboard_4.jpg",
+    "description": "",
+    "price": "25500.00",
+    "quantity": 3
+  },
+   {
+    "category": "Шкафы",
+    "name": "Шкаф 5",
+    "short_description": "Вместительный, деревянный шкаф для книг",
+    "image": "product_img/cupboard_5.jpg",
     "description": "",
     "price": "25500.00",
     "quantity": 3
@@ -35,6 +147,5 @@
     "description": "",
     "price": "30000.00",
     "quantity": 16
-
   }
 ]
